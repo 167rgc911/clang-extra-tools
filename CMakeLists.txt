@@ -35,7 +35,7 @@ add_definitions(${LLVM_DEFINITIONS})
 add_definitions(${CLANG_DEFINITIONS})
 
 add_executable(ast ast.cpp)
-# target_link_libraries(ast clang LLVM-17)
+target_link_libraries(ast clang LLVM-17)
 target_link_libraries(ast
   clangAST
   clangASTMatchers
