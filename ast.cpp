@@ -10,6 +10,8 @@
 
 using namespace clang;
 using namespace clang::ast_matchers;
+using namespace clang::tooling;
+using namespace llvm;
 
 StatementMatcher LoopMatcher
     = forStmt (hasLoopInit (declStmt (hasSingleDecl (
@@ -112,9 +114,6 @@ public:
       }
   }
 };
-
-using namespace clang::tooling;
-using namespace llvm;
 
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
