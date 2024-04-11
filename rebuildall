@@ -1,0 +1,1 @@
+rm -rf b && CC=clang-17 CXX=clang++-17 cmake -S . -B b
