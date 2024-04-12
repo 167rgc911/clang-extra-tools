@@ -14,6 +14,18 @@ auto foo(int i) -> void
   i += 5;
 }
 
+#define ZERO 0
+#define NOTZERO_PROMISE 0
+
+auto bar(int i) -> void
+{
+  auto ii = i/0;
+  auto xx = i/ZERO;
+  auto yy = i/NOTZERO_PROMISE;
+  auto b = 4;
+  auto c = 1/(b - 4);
+}
+
 auto main() -> int
 {
   int x {3};

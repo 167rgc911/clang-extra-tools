@@ -115,6 +115,27 @@ public:
   }
 };
 
+/* https://www.youtube.com/watch?v=UfLH7dORav8 */
+StatementMatcher DivByZeroMatcher = binaryOperator (
+    hasOperatorName ("/"),
+    hasRHS (integerLiteral (equals ( 0)).bind ("zero"))).bind ("divByZero");
+
+class DivByZeroPrinter : public MatchFinder::MatchCallback
+{
+public:
+  virtual void
+  run (const MatchFinder::MatchResult &Result)
+  {
+    if (const auto *div_stmt = Result.Nodes.getNodeAs<BinaryOperator> ("divByZero"))
+      {
+        div_stmt->dump();
+        const auto *div0 = Result.Nodes.getNodeAs<IntegerLiteral> ("zero");
+        const auto v = div0->getValue();
+        llvm::outs () << "div by " << v << "!\n";
+      }
+  }
+};
+
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
 static llvm::cl::OptionCategory MyToolCategory ("my-tool options");
@@ -151,6 +172,9 @@ main (int argc, const char **argv)
 
   IfPrinter If_Printer;
   Finder.addMatcher (IfMatcher, &If_Printer);
+
+  DivByZeroPrinter DBZ_Printer;
+  Finder.addMatcher (DivByZeroMatcher, &DBZ_Printer);
 
   return Tool.run (newFrontendActionFactory (&Finder).get ());
 }
