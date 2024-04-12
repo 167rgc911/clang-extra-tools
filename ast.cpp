@@ -129,6 +129,10 @@ public:
     if (const auto *div_stmt = Result.Nodes.getNodeAs<BinaryOperator> ("divByZero"))
       {
         div_stmt->dump();
+        const auto *divDenom = div_stmt->getRHS ();
+        const IntegerLiteral* intLiteral = clang::dyn_cast<IntegerLiteral>(divDenom);
+        llvm::outs () << "rhs " << divDenom->getType() <<
+          " : " << intLiteral->getValue() << "!\n";
         const auto *div0 = Result.Nodes.getNodeAs<IntegerLiteral> ("zero");
         const auto v = div0->getValue();
         llvm::outs () << "div by " << v << "!\n";
